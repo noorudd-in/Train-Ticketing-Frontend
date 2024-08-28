@@ -15,3 +15,15 @@ export const getProfile = async (token, userId) => {
     return error.response.data;
   }
 };
+
+export const loginUser = async (email, password) => {
+  try {
+    const user = await axios.post(`${AUTH_URL}/login`, {
+      email: email,
+      password: password,
+    });
+    return user.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
