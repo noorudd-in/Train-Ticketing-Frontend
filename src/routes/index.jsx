@@ -19,7 +19,6 @@ const APP_ROUTES = createBrowserRouter([
     path: "/login",
     element: (
       <>
-        <NavBar />
         <Login />
       </>
     ),

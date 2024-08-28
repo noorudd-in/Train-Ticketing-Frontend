@@ -1,9 +1,15 @@
 import "./App.css";
 import { RouterProvider } from "react-router-dom";
 import APP_ROUTES from "./routes";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  return <RouterProvider router={APP_ROUTES} />;
+  return (
+    <>
+      <Toaster />
+      <RouterProvider router={APP_ROUTES} />
+    </>
+  );
 }
 
 export default App;
