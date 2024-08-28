@@ -1,13 +1,9 @@
-import './App.css'
-import Home from './components/Home'
+import "./App.css";
+import { RouterProvider } from "react-router-dom";
+import APP_ROUTES from "./routes";
 
 function App() {
-
-  return (
-    <>
-      <Home />
-    </>
-  )
+  return <RouterProvider router={APP_ROUTES} />;
 }
 
-export default App
+export default App;
