@@ -141,7 +141,10 @@ const Register = () => {
               onClick={handleRegister}
               disabled={loading}
             >
-              Register
+              {loading && (
+                <span className="loading loading-spinner loading-sm"></span>
+              )}
+              {loading ? "Please Wait" : "Register"}
             </button>
           </div>
           <div className="mt-2">
