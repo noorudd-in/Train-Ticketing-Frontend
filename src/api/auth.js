@@ -27,3 +27,17 @@ export const loginUser = async (email, password) => {
     return error.response.data;
   }
 };
+
+export const registerUser = async ({ name, phone, email, password }) => {
+  try {
+    const user = await axios.post(`${AUTH_URL}/register`, {
+      full_name: name,
+      phone_number: phone,
+      email,
+      password,
+    });
+    return user.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
