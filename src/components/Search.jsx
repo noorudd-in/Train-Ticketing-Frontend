@@ -1,5 +1,3 @@
-import React from "react";
-
 const Search = ({ stations, setStation, setShowResult, category }) => {
   const handleSelect = (name) => {
     setStation(name);

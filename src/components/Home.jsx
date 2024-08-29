@@ -2,12 +2,32 @@ import React, { useEffect, useState } from "react";
 import Search from "./Search";
 import axios from "axios";
 import { SEARCH_URL } from "../config";
+import { ArrowRightLeft, ArrowDownUp } from "lucide-react";
+import { toast } from "react-hot-toast";
+import { getRoutes } from "../api/search";
 
 const Home = () => {
   const [stations, setStations] = useState(null);
   const [showResult, setShowResult] = useState(null);
   const [fromStation, setFromStation] = useState("");
   const [toStation, setToStation] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSearch = async () => {
+    if (fromStation == "") {
+      toast.error("Source station is required.");
+      return;
+    }
+    if (toStation == "") {
+      toast.error("Destination station is required.");
+      return;
+    }
+    setLoading(true);
+    getRoutes(fromStation, toStation).then((res) => {
+      setLoading(false);
+      console.log("DATA FETCHED");
+    });
+  };
 
   useEffect(() => {
     let inputValue;
@@ -59,7 +79,15 @@ const Home = () => {
               />
             )}
           </div>
-          <div className="flex flex-col space-y-2 mt-4 lg:mt-0 w-full">
+          <div className="flex justify-center mt-2">
+            <span className="hidden lg:block">
+              <ArrowRightLeft />
+            </span>
+            <span className="block lg:hidden">
+              <ArrowDownUp />
+            </span>
+          </div>
+          <div className="flex flex-col space-y-2 mt-2 lg:mt-0 w-full">
             <input
               type="text"
               placeholder="To Station"
@@ -78,6 +106,15 @@ const Home = () => {
             )}
           </div>
         </div>
+      </div>
+
+      <div className="mt-5" onClick={handleSearch}>
+        <button className="btn btn-primary" disabled={loading}>
+          {loading && (
+            <span className="loading loading-spinner loading-sm"></span>
+          )}
+          {loading ? "Searching..." : "Search Trains"}
+        </button>
       </div>
     </div>
   );

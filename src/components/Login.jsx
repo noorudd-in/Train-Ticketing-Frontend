@@ -100,7 +100,10 @@ const Login = () => {
               onClick={handleLogin}
               disabled={loading}
             >
-              Login
+              {loading && (
+                <span className="loading loading-spinner loading-sm"></span>
+              )}
+              {loading ? "Please Wait" : "Login"}
             </button>
           </div>
 
