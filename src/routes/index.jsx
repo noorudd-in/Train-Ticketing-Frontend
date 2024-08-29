@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../components/ErrorPage";
 import NavBar from "../components/NavBar";
+import NavBarLoggedOut from "../components/NavBarLoggedOut";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import Register from "../components/Register";
@@ -20,6 +21,7 @@ const APP_ROUTES = createBrowserRouter([
     path: "/login",
     element: (
       <>
+        <NavBarLoggedOut show="register" />
         <Login />
       </>
     ),
@@ -29,6 +31,7 @@ const APP_ROUTES = createBrowserRouter([
     path: "/register",
     element: (
       <>
+        <NavBarLoggedOut show="login" />
         <Register />
       </>
     ),
