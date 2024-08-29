@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Mail } from "lucide-react";
-import { LockKeyhole } from "lucide-react";
+import { Mail, LockKeyhole } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { loginUser } from "../api/auth";
@@ -108,7 +107,7 @@ const Login = () => {
           <div className="mt-2">
             <p>
               Don't have an account?{" "}
-              <Link>
+              <Link to="/register">
                 <span className="font-bold">Register</span>
               </Link>
             </p>
