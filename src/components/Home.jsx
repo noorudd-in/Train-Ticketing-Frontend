@@ -36,6 +36,12 @@ const Home = () => {
     });
   };
 
+  const swapStations = () => {
+    let tempFromStation = fromStation;
+    setFromStation(toStation);
+    setToStation(tempFromStation);
+  };
+
   useEffect(() => {
     let inputValue;
     if (showResult == "from") {
@@ -87,7 +93,10 @@ const Home = () => {
                 />
               )}
             </div>
-            <div className="flex justify-center mt-2">
+            <div
+              className="flex justify-center mt-2 cursor-pointer"
+              onClick={swapStations}
+            >
               <span className="hidden lg:block">
                 <ArrowRightLeft />
               </span>
