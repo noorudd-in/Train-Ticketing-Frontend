@@ -25,6 +25,10 @@ const TrainRoute = ({ data, type }) => {
         {data?.train_name} ({data?.train_number})
       </div>
       <div className="flex justify-between">
+        <span className="hidden lg:block">{data?.from_station_name}</span>
+        <span className="hidden lg:block">{data?.to_station_name}</span>
+      </div>
+      <div className="flex justify-between">
         <span>
           {data?.departure} | {data?.from_station_code}
         </span>

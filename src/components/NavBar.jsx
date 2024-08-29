@@ -10,6 +10,10 @@ const NavBar = () => {
   useEffect(() => {
     const token = localStorage.getItem("AccessToken");
     const userId = localStorage.getItem("UserId");
+    if (!token || !userId) {
+      localStorage.removeItem("AccessToken");
+      localStorage.removeItem("UserId");
+    }
     if (token && userId) {
       getProfile(token, userId).then((res) => {
         if (res.success) {
@@ -41,12 +45,14 @@ const NavBar = () => {
               tabIndex={0}
               className="dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow"
             >
-              <li>
-                <a>
-                  <User />
-                  Profile
-                </a>
-              </li>
+              <Link to="/profile">
+                <li>
+                  <a>
+                    <User />
+                    Profile
+                  </a>
+                </li>
+              </Link>
               <li>
                 <a>
                   <Ticket />

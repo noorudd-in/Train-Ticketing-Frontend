@@ -5,6 +5,7 @@ import NavBarLoggedOut from "../components/NavBarLoggedOut";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import Register from "../components/Register";
+import Profile from "../components/Profile";
 
 const APP_ROUTES = createBrowserRouter([
   {
@@ -33,6 +34,16 @@ const APP_ROUTES = createBrowserRouter([
       <>
         <NavBarLoggedOut show="login" />
         <Register />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/profile",
+    element: (
+      <>
+        <NavBar />
+        <Profile />
       </>
     ),
     errorElement: <ErrorPage />,
