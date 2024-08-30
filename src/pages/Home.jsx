@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Search from "./Search";
-import axios from "axios";
-import { SEARCH_URL } from "../config";
+import Search from "../components/Search";
 import { ArrowRightLeft, ArrowDownUp } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getRoutes } from "../api/search";
-import TrainRoute from "./TrainRoute";
+import TrainRoute from "../components/TrainRoute";
 
 const Home = () => {
   const [stations, setStations] = useState(null);

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppStore } from "../store";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import Passengers from "./Passengers";
+import Passengers from "../components/Passengers";
 
 const Booking = () => {
   const [passengers, setPassengers] = useState([
