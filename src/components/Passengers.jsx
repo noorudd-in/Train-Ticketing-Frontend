@@ -24,16 +24,17 @@ const Passengers = ({ no, data, deletePassenger, onChange }) => {
           <div className="flex gap-2 lg:gap-5">
             <input
               type="number"
+              value={data?.age}
               placeholder={`Age`}
               className="input input-bordered w-full max-w-xs"
               onChange={(e) => onChange(no, "age", e.target.value)}
             />
             <select
               className="select select-bordered w-full max-w-xs"
-              defaultValue="M"
+              value={data.gender}
               onChange={(e) => onChange(no, "gender", e.target.value)}
             >
-              <option value="M">Gender</option>
+              <option value="default">Gender</option>
               <option value="M">Male</option>
               <option value="F">Female</option>
               <option value="T">Transgender</option>
