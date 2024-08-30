@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../components/ErrorPage";
 import NavBar from "../components/NavBar";
-import Home from "../components/Home";
+import Home from "../pages/Home";
 import Login from "../components/Login";
 import Register from "../components/Register";
-import Profile from "../components/Profile";
-import Booking from "../components/Booking";
+import Profile from "../pages/Profile";
+import Booking from "../pages/Booking";
 
 const APP_ROUTES = createBrowserRouter([
   {

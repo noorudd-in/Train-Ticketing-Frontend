@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getProfile } from "../api/auth";
-import Loading from "./Loading";
+import Loading from "../components/Loading";
 
 const Profile = () => {
   const [name, setName] = useState(null);
