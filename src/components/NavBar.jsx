@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { getProfile } from "../api/auth";
 import { Link } from "react-router-dom";
 import { User, Ticket, LogOut } from "lucide-react";
-import TrainSVG from "../../public/train.svg";
+import { useAppStore } from "../store";
+import TrainSVG from "/train.svg";
 
 const NavBar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { isLoggedIn, setIsLoggedIn } = useAppStore();
 
   useEffect(() => {
     const token = localStorage.getItem("AccessToken");

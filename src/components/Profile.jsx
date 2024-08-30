@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getProfile } from "../api/auth";
+import Loading from "./Loading";
 
 const Profile = () => {
   const [name, setName] = useState(null);
@@ -30,7 +31,7 @@ const Profile = () => {
   }, []);
   return (
     <div>
-      {loading && <h1>Loading....</h1>}
+      {loading && <Loading />}
       {!loading && (
         <div className="text-center w-10/12 lg:w-1/2 mx-auto">
           <div className="avatar placeholder">

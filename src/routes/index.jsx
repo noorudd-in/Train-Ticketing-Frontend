@@ -1,11 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import ErrorPage from "../components/ErrorPage";
 import NavBar from "../components/NavBar";
-import NavBarLoggedOut from "../components/NavBarLoggedOut";
 import Home from "../components/Home";
 import Login from "../components/Login";
 import Register from "../components/Register";
 import Profile from "../components/Profile";
+import Booking from "../components/Booking";
 
 const APP_ROUTES = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ const APP_ROUTES = createBrowserRouter([
     path: "/login",
     element: (
       <>
-        <NavBarLoggedOut show="register" />
+        <NavBar />
         <Login />
       </>
     ),
@@ -32,8 +32,18 @@ const APP_ROUTES = createBrowserRouter([
     path: "/register",
     element: (
       <>
-        <NavBarLoggedOut show="login" />
+        <NavBar />
         <Register />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/booking",
+    element: (
+      <>
+        <NavBar />
+        <Booking />
       </>
     ),
     errorElement: <ErrorPage />,

@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
+import { useAppStore } from "../store";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
+import { getProfile } from "../api/auth";
 
 const TrainRoute = ({ data, type }) => {
   const [trainClass, setTrainClass] = useState(null);
+  const { isLoggedIn, setIsLoggedIn, setBooking } = useAppStore();
+  const navigate = useNavigate();
   let cost = data?.cost;
   if (trainClass == "3E" || trainClass == "tatkal") {
     cost = cost * 2.5;
@@ -15,6 +21,42 @@ const TrainRoute = ({ data, type }) => {
   if (trainClass == "1A") {
     cost = cost * 6;
   }
+
+  const handleBooking = async (data) => {
+    const token = localStorage.getItem("AccessToken");
+    const userId = localStorage.getItem("UserId");
+    if (!isLoggedIn) {
+      toast.error("Please login to book ticket.");
+      return;
+    }
+    if (!token || !userId) {
+      setIsLoggedIn(false);
+      toast.error("Please login to book ticket.");
+      return;
+    }
+    const user = await getProfile(token, userId);
+    if (!user.success) {
+      setIsLoggedIn(false);
+      toast.error("Session Expired Please login again.");
+      return;
+    }
+    let bookingData = {
+      train_name: data.train_name,
+      train_number: data.train_number,
+      departure: data.departure,
+      from_station_name: data.from_station_name,
+      from_station_code: data.from_station_code,
+      from_schedule_id: data.from_schedule_id,
+      arrival: data.arrival,
+      to_station_name: data.to_station_name,
+      to_station_code: data.to_station_code,
+      to_schedule_id: data.to_schedule_id,
+      class: type == "general" ? trainClass : "SL",
+      category: type == "special" ? trainClass : type,
+    };
+    setBooking(bookingData);
+    navigate("/booking");
+  };
 
   useEffect(() => {
     setTrainClass(null);
@@ -122,7 +164,11 @@ const TrainRoute = ({ data, type }) => {
       )}
 
       <div className="mt-5">
-        <button className="btn btn-success" disabled={trainClass == null}>
+        <button
+          className="btn btn-success"
+          disabled={trainClass == null}
+          onClick={() => handleBooking(data)}
+        >
           Book Now {trainClass && `@ ${cost}`}
         </button>
       </div>

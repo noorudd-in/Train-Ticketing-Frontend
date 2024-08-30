@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { loginUser } from "../api/auth";
 import { useNavigate } from "react-router-dom";
+import { useAppStore } from "../store";
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ const Login = () => {
   const [rememberEmail, setRememberEmail] = useState(
     localStorage.getItem("UserEmail") ? true : false
   );
+  const { setIsLoggedIn } = useAppStore();
   let navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -36,6 +38,7 @@ const Login = () => {
         toast.error(data.message);
         return;
       }
+      setIsLoggedIn(true);
       toast.success("Logged in successfully!");
       localStorage.setItem("AccessToken", data.data.authToken);
       localStorage.setItem("UserId", data.data.id);

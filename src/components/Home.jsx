@@ -53,6 +53,51 @@ const Home = () => {
     if (inputValue == "") {
       return setStations(null);
     }
+    setRoutes([
+      {
+        from_schedule_id: 1,
+        to_schedule_id: 2,
+        from_station_name: "Chhatrapati Shivaji Maharaj Terminus (Mumbai)",
+        from_station_code: "CSMT",
+        departure: "21:50",
+        to_station_name: "Pune",
+        to_station_code: "PUNE",
+        arrival: "01:20",
+        train_number: 12701,
+        train_name: "Hussain Sagar Express",
+        cost: 445,
+        SL: 75,
+        "3E": null,
+        "3A": 71,
+        "2A": 54,
+        "1A": null,
+        ladies: 0,
+        senior_citizen: 6,
+        tatkal: 10,
+      },
+      {
+        from_schedule_id: 33,
+        to_schedule_id: 34,
+        from_station_name: "Chhatrapati Shivaji Maharaj Terminus (Mumbai)",
+        from_station_code: "CSMT",
+        departure: "14:00",
+        to_station_name: "Pune",
+        to_station_code: "PUNE",
+        arrival: "17:55",
+        train_number: 11019,
+        train_name: "Konark Express",
+        cost: 740,
+        SL: 80,
+        "3E": null,
+        "3A": 72,
+        "2A": 54,
+        "1A": null,
+        ladies: 6,
+        senior_citizen: 6,
+        tatkal: 10,
+      },
+    ]);
+    /*
     const debounceTimer = setTimeout(() => {
       if (inputValue) {
         axios.get(`${SEARCH_URL}/station?name=${inputValue}`).then((result) => {
@@ -67,6 +112,7 @@ const Home = () => {
     return () => {
       clearTimeout(debounceTimer);
     };
+    */
   }, [fromStation, toStation]);
 
   return (
@@ -154,7 +200,13 @@ const Home = () => {
         <div className="mt-5">
           <h1 className="text-center font-bold text-2xl">Available Routes</h1>
           {routes.map((route) => {
-            return <TrainRoute data={route} type={searchType} />;
+            return (
+              <TrainRoute
+                key={route.train_number}
+                data={route}
+                type={searchType}
+              />
+            );
           })}
         </div>
       )}
