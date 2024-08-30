@@ -46,14 +46,13 @@ const NavBar = () => {
               tabIndex={0}
               className="dropdown-content menu bg-base-300 rounded-box z-[1] w-52 p-2 shadow"
             >
-              <Link to="/profile">
-                <li>
-                  <a>
-                    <User />
-                    Profile
-                  </a>
-                </li>
-              </Link>
+              <li>
+                <Link to="/profile">
+                  <User />
+                  Profile
+                </Link>
+              </li>
+
               <li>
                 <a>
                   <Ticket />

@@ -16,7 +16,7 @@ export const useAppStore = create((set) => ({
     class: null,
     category: null,
   },
-  passengers: [],
+  passenger: [],
   setIsLoggedIn: (data) => set({ isLoggedIn: data }),
   setBooking: (data) => set({ booking: data }),
   setPassenger: (data) => set({ passengers: data }),
@@ -35,5 +35,5 @@ export const useAppStore = create((set) => ({
         category: null,
       },
     }),
-  removePassenger: () => set({ passengers: [] }),
+  removePassenger: () => set({ passenger: [] }),
 }));
