@@ -8,7 +8,7 @@ const Booking = () => {
   const [passengers, setPassengers] = useState([
     { name: "", age: "", gender: "" },
   ]);
-  const { booking, passenger, setPassenger } = useAppStore();
+  const { booking, passenger, setPassenger, removePassenger } = useAppStore();
   const navigate = useNavigate();
 
   const deletePassenger = (index) => {
@@ -45,7 +45,7 @@ const Booking = () => {
         toast.error(`Passenger ${i + 1} age is required.`);
         return false;
       }
-      if (data[i].gender == "") {
+      if (data[i].gender == "" || data[i].gender == "default") {
         toast.error(`Passenger ${i + 1} gender is required.`);
         return false;
       }
@@ -65,6 +65,11 @@ const Booking = () => {
     return true;
   };
 
+  const handleBack = () => {
+    removePassenger();
+    navigate("/");
+  };
+
   const handleConfirm = () => {
     const res = validatePassenger(passengers);
     if (!res) {
@@ -80,14 +85,24 @@ const Booking = () => {
       details.push(p);
     });
     setPassenger(details);
+    navigate("/confirm");
   };
 
   useEffect(() => {
     if (!booking?.train_number) {
       navigate("/");
     }
-    if (passenger[0]) {
-      setPassengers(passenger);
+    if (passenger.length > 0) {
+      let passengers = [];
+      passenger.map((p, i) => {
+        passengers.push({
+          name: p[`p${i + 1}_name`],
+          age: p[`p${i + 1}_age`],
+          gender: p[`p${i + 1}_gender`],
+        });
+      });
+      console.log(passengers);
+      setPassengers(passengers);
     }
   }, []);
 
@@ -142,7 +157,7 @@ const Booking = () => {
       )}
 
       <div className="flex justify-center">
-        <button className="btn btn-error mx-5" onClick={() => navigate("/")}>
+        <button className="btn btn-error mx-5" onClick={handleBack}>
           Back
         </button>
         <button className="btn btn-success" onClick={handleConfirm}>

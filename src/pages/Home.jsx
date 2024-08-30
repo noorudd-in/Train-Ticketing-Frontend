@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import Search from "../components/Search";
 import { ArrowRightLeft, ArrowDownUp } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getRoutes } from "../api/search";
+import { useAppStore } from "../store";
+import Search from "../components/Search";
 import TrainRoute from "../components/TrainRoute";
 
 const Home = () => {
@@ -13,6 +14,7 @@ const Home = () => {
   const [routes, setRoutes] = useState(null);
   const [searchType, setSearchType] = useState("general");
   const [loading, setLoading] = useState(false);
+  const { removePassenger, removeBooking } = useAppStore();
 
   const handleSearch = async () => {
     if (fromStation == "") {
@@ -39,6 +41,12 @@ const Home = () => {
     setFromStation(toStation);
     setToStation(tempFromStation);
   };
+
+  useEffect(() => {
+    // Make booking and passenger state empty.
+    removeBooking();
+    removePassenger();
+  }, []);
 
   useEffect(() => {
     let inputValue;
