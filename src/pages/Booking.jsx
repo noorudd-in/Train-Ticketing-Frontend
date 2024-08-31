@@ -8,7 +8,7 @@ const Booking = () => {
   const [passengers, setPassengers] = useState([
     { name: "", age: "", gender: "" },
   ]);
-  const { booking, passenger, setPassenger, removePassenger } = useAppStore();
+  const { booking, passenger, setPassenger } = useAppStore();
   const navigate = useNavigate();
 
   const deletePassenger = (index) => {
@@ -65,11 +65,6 @@ const Booking = () => {
     return true;
   };
 
-  const handleBack = () => {
-    removePassenger();
-    navigate("/");
-  };
-
   const handleConfirm = () => {
     const res = validatePassenger(passengers);
     if (!res) {
@@ -101,7 +96,6 @@ const Booking = () => {
           gender: p[`p${i + 1}_gender`],
         });
       });
-      console.log(passengers);
       setPassengers(passengers);
     }
   }, []);
@@ -131,7 +125,8 @@ const Booking = () => {
             {booking?.category == "senior_citizen"
               ? "Senior Citizen"
               : booking?.category?.[0]?.toUpperCase() +
-                booking?.category?.slice(1)}
+                booking?.category?.slice(1)}{" "}
+            / {booking.seats <= 0 ? "WL" : "AVL-" + booking.seats}
           </span>
         </div>
       </div>
@@ -157,7 +152,7 @@ const Booking = () => {
       )}
 
       <div className="flex justify-center">
-        <button className="btn btn-error mx-5" onClick={handleBack}>
+        <button className="btn btn-error mx-5" onClick={() => navigate("/")}>
           Back
         </button>
         <button className="btn btn-success" onClick={handleConfirm}>

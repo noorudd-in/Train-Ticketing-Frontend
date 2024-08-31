@@ -7,7 +7,8 @@ import { getProfile } from "../api/auth";
 const TrainRoute = ({ data, type }) => {
   const [trainClass, setTrainClass] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { isLoggedIn, setIsLoggedIn, setBooking } = useAppStore();
+  const { isLoggedIn, setUser, setIsLoggedIn, setBooking, removeUser } =
+    useAppStore();
   const navigate = useNavigate();
   let cost = data?.cost;
   if (trainClass == "3E" || trainClass == "tatkal") {
@@ -35,6 +36,7 @@ const TrainRoute = ({ data, type }) => {
     if (!token || !userId) {
       setLoading(false);
       setIsLoggedIn(false);
+      removeUser();
       toast.error("Please login to book ticket.");
       return;
     }
@@ -42,9 +44,17 @@ const TrainRoute = ({ data, type }) => {
     if (!user.success) {
       setLoading(false);
       setIsLoggedIn(false);
+      removeUser();
       toast.error("Session Expired Please login again.");
       return;
     }
+    setUser({
+      id: user.data.id,
+      full_name: user.data.full_name,
+      email: user.data.email,
+      phone_number: user.data.phone_number,
+      role: user.data.role,
+    });
     let bookingData = {
       train_name: data.train_name,
       train_number: data.train_number,
