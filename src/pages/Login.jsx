@@ -13,7 +13,7 @@ const Login = () => {
   const [rememberEmail, setRememberEmail] = useState(
     localStorage.getItem("UserEmail") ? true : false
   );
-  const { setIsLoggedIn } = useAppStore();
+  const { setIsLoggedIn, setUser } = useAppStore();
   let navigate = useNavigate();
 
   const handleLogin = async () => {
@@ -39,6 +39,13 @@ const Login = () => {
         return;
       }
       setIsLoggedIn(true);
+      setUser({
+        id: data.data.id,
+        full_name: data.data.full_name,
+        email: data.data.email,
+        phone_number: data.data.phone_number,
+        role: data.data.role,
+      });
       toast.success("Logged in successfully!");
       localStorage.setItem("AccessToken", data.data.authToken);
       localStorage.setItem("UserId", data.data.id);

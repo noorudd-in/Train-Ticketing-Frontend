@@ -6,7 +6,7 @@ import { useAppStore } from "../store";
 import TrainSVG from "/train.svg";
 
 const NavBar = () => {
-  const { isLoggedIn, setIsLoggedIn } = useAppStore();
+  const { isLoggedIn, setIsLoggedIn, setUser } = useAppStore();
 
   useEffect(() => {
     const token = localStorage.getItem("AccessToken");
@@ -19,6 +19,13 @@ const NavBar = () => {
       getProfile(token, userId).then((res) => {
         if (res.success) {
           setIsLoggedIn(true);
+          setUser({
+            id: res.data.id,
+            full_name: res.data.full_name,
+            email: res.data.email,
+            phone_number: res.data.phone_number,
+            role: res.data.role,
+          });
         }
       });
     }

@@ -6,6 +6,7 @@ import { getProfile } from "../api/auth";
 
 const TrainRoute = ({ data, type }) => {
   const [trainClass, setTrainClass] = useState(null);
+  const [loading, setLoading] = useState(false);
   const { isLoggedIn, setIsLoggedIn, setBooking } = useAppStore();
   const navigate = useNavigate();
   let cost = data?.cost;
@@ -23,19 +24,23 @@ const TrainRoute = ({ data, type }) => {
   }
 
   const handleBooking = async (data) => {
+    setLoading(true);
     const token = localStorage.getItem("AccessToken");
     const userId = localStorage.getItem("UserId");
     if (!isLoggedIn) {
+      setLoading(false);
       toast.error("Please login to book ticket.");
       return;
     }
     if (!token || !userId) {
+      setLoading(false);
       setIsLoggedIn(false);
       toast.error("Please login to book ticket.");
       return;
     }
     const user = await getProfile(token, userId);
     if (!user.success) {
+      setLoading(false);
       setIsLoggedIn(false);
       toast.error("Session Expired Please login again.");
       return;
@@ -53,7 +58,10 @@ const TrainRoute = ({ data, type }) => {
       to_schedule_id: data.to_schedule_id,
       class: type == "general" ? trainClass : "SL",
       category: type == "special" ? trainClass : type,
+      seats: data[trainClass],
+      cost: cost,
     };
+    setLoading(false);
     setBooking(bookingData);
     navigate("/booking");
   };
@@ -166,10 +174,13 @@ const TrainRoute = ({ data, type }) => {
       <div className="mt-5">
         <button
           className="btn btn-success"
-          disabled={trainClass == null}
+          disabled={trainClass == null || loading}
           onClick={() => handleBooking(data)}
         >
-          Book Now {trainClass && `@ ${cost}`}
+          {loading && (
+            <span className="loading loading-spinner loading-sm"></span>
+          )}
+          {loading ? "Please Wait" : `Book Now ${trainClass && `@ ${cost}`}`}
         </button>
       </div>
     </div>

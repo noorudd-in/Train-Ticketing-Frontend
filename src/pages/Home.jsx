@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRightLeft, ArrowDownUp } from "lucide-react";
 import { toast } from "react-hot-toast";
+import axios from "axios";
 import { getRoutes } from "../api/search";
 import { useAppStore } from "../store";
 import Search from "../components/Search";
 import TrainRoute from "../components/TrainRoute";
+import { SEARCH_URL } from "../config";
+let defaultStations = [
+  { id: 1, code: "CSMT", name: "Mumbai" },
+  { id: 2, code: "NDLS", name: "New Delhi" },
+  { id: 3, code: "HYB", name: "Hyderabad" },
+];
 
 const Home = () => {
   const [stations, setStations] = useState(null);
@@ -59,6 +66,8 @@ const Home = () => {
     if (inputValue == "") {
       return setStations(null);
     }
+    setStations(defaultStations);
+    /*
     setRoutes([
       {
         from_schedule_id: 1,
@@ -103,7 +112,7 @@ const Home = () => {
         tatkal: 10,
       },
     ]);
-    /*
+    */
     const debounceTimer = setTimeout(() => {
       if (inputValue) {
         axios.get(`${SEARCH_URL}/station?name=${inputValue}`).then((result) => {
@@ -118,7 +127,6 @@ const Home = () => {
     return () => {
       clearTimeout(debounceTimer);
     };
-    */
   }, [fromStation, toStation]);
 
   return (
