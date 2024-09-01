@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ArrowRightLeft, ArrowDownUp } from "lucide-react";
 import { toast } from "react-hot-toast";
-import axios from "axios";
-import { getRoutes } from "../api/search";
+import { getRoutes, getStations } from "../api/search";
 import { useAppStore } from "../store";
 import Search from "../components/Search";
 import TrainRoute from "../components/TrainRoute";
-import { SEARCH_URL } from "../config";
 let defaultStations = [
   { id: 1, code: "CSMT", name: "Mumbai" },
   { id: 2, code: "NDLS", name: "New Delhi" },
@@ -67,59 +65,13 @@ const Home = () => {
       return setStations(null);
     }
     setStations(defaultStations);
-    /*
-    setRoutes([
-      {
-        from_schedule_id: 1,
-        to_schedule_id: 2,
-        from_station_name: "Chhatrapati Shivaji Maharaj Terminus (Mumbai)",
-        from_station_code: "CSMT",
-        departure: "21:50",
-        to_station_name: "Pune",
-        to_station_code: "PUNE",
-        arrival: "01:20",
-        train_number: 12701,
-        train_name: "Hussain Sagar Express",
-        cost: 445,
-        SL: 75,
-        "3E": null,
-        "3A": 71,
-        "2A": 54,
-        "1A": null,
-        ladies: 0,
-        senior_citizen: 6,
-        tatkal: 10,
-      },
-      {
-        from_schedule_id: 33,
-        to_schedule_id: 34,
-        from_station_name: "Chhatrapati Shivaji Maharaj Terminus (Mumbai)",
-        from_station_code: "CSMT",
-        departure: "14:00",
-        to_station_name: "Pune",
-        to_station_code: "PUNE",
-        arrival: "17:55",
-        train_number: 11019,
-        train_name: "Konark Express",
-        cost: 740,
-        SL: 80,
-        "3E": null,
-        "3A": 72,
-        "2A": 54,
-        "1A": null,
-        ladies: 6,
-        senior_citizen: 6,
-        tatkal: 10,
-      },
-    ]);
-    */
     const debounceTimer = setTimeout(() => {
       if (inputValue) {
-        axios.get(`${SEARCH_URL}/station?name=${inputValue}`).then((result) => {
-          setStations(result.data.data);
-          if (result.data.data[0] == undefined || !result.data.data) {
+        getStations(inputValue).then((res) => {
+          if (!res.success) {
             setStations(null);
           }
+          setStations(res.data);
         });
       }
     }, 500);

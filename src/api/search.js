@@ -9,3 +9,12 @@ export const getRoutes = async (from, to) => {
     return error.response.data;
   }
 };
+
+export const getStations = async (name) => {
+  try {
+    const data = await axios.get(`${SEARCH_URL}/station?name=${name}`);
+    return data.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
