@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { getProfile } from "../api/auth";
 import { Link } from "react-router-dom";
 import { User, Ticket, LogOut } from "lucide-react";
@@ -43,7 +43,7 @@ const NavBar = () => {
           <img src={TrainSVG} alt="Train Logo" className="w-12 h-12" />
         </h1>
       </Link>
-      <div className="mr-5">
+      <div className="mr-5 no-print">
         {isLoggedIn ? (
           <div className="dropdown dropdown-end">
             <div tabIndex={0}>
