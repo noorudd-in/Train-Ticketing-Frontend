@@ -1,10 +1,21 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useAppStore } from "../store";
+import { newBooking, getTicket } from "../api/book";
 
 const ConfirmBooking = () => {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { isLoggedIn, booking, passenger, user } = useAppStore();
+  const {
+    isLoggedIn,
+    booking,
+    passenger,
+    user,
+    removeUser,
+    setIsLoggedIn,
+    setTicket,
+  } = useAppStore();
 
   const calculateGST = (cost) => {
     let withoutConvenience = cost - 20;
@@ -13,8 +24,40 @@ const ConfirmBooking = () => {
     return Number(gst);
   };
 
-  const handleBooking = () => {
-    navigate("/reciept");
+  const handleBooking = async () => {
+    setLoading(true);
+    const token = localStorage.getItem("AccessToken");
+    const userId = localStorage.getItem("UserId");
+    if (!token || !userId) {
+      toast.error("Session Expired. Please login again.");
+      setLoading(false);
+      setIsLoggedIn(false);
+      removeUser();
+      navigate("/");
+    }
+
+    const passengerData = passenger.reduce((acc, obj) => {
+      return { ...acc, ...obj };
+    });
+    const headers = {
+      authtoken: token,
+    };
+    const data = {
+      user_id: userId,
+      ...passengerData,
+      train_number: booking.train_number,
+      from_schedule_id: booking.from_schedule_id,
+      to_schedule_id: booking.to_schedule_id,
+      class: booking.class,
+      category: booking.category,
+    };
+
+    const bookingResponse = await newBooking(data, headers);
+    const pnr = await bookingResponse.data.pnr;
+    getTicket(pnr, userId, headers).then((ticket) => {
+      setTicket(ticket.data);
+      navigate("/receipt");
+    });
   };
 
   useEffect(() => {
@@ -71,7 +114,7 @@ const ConfirmBooking = () => {
         </h1>
         {passenger.map((p, i) => {
           return (
-            <div className="font-bold text-base lg:text-xl">
+            <div key={i} className="font-bold text-base lg:text-xl">
               {i + 1}
               {") "}
               {p[`p${i + 1}_name`]} | {p[`p${i + 1}_age`]} |{" "}
@@ -87,34 +130,44 @@ const ConfirmBooking = () => {
           <p>Ticket Fare:</p>
           <p>
             ₹{" "}
-            {(booking.cost - calculateGST(booking.cost) - 20) *
-              passenger.length}
+            {(
+              (booking.cost - calculateGST(booking.cost) - 20) *
+              passenger.length
+            ).toFixed(2)}
           </p>
         </div>
         <div className="flex justify-between max-w-80">
           <p>Convenience Fees:</p>
-          <p>₹ {20 * passenger.length}</p>
+          <p>₹ {(20 * passenger.length).toFixed(2)}</p>
         </div>
         <div className="flex justify-between max-w-80">
           <p>Tax (including GST):</p>
-          <p>₹ {calculateGST(booking.cost) * passenger.length}</p>
+          <p>₹ {(calculateGST(booking.cost) * passenger.length).toFixed(2)}</p>
         </div>
 
         <div className="flex justify-between max-w-80 font-bold">
           <p>Total Fare:</p>
-          <p>₹ {booking.cost * passenger.length}</p>
+          <p>₹ {(booking.cost * passenger.length).toFixed(2)}</p>
         </div>
       </div>
 
       <div className="flex justify-center">
         <button
+          disabled={loading}
           className="btn btn-error mx-5"
           onClick={() => navigate("/booking")}
         >
           Back
         </button>
-        <button className="btn btn-success" onClick={handleBooking}>
-          Confirm Booking
+        <button
+          className="btn btn-success"
+          onClick={handleBooking}
+          disabled={loading}
+        >
+          {loading && (
+            <span className="loading loading-spinner loading-sm"></span>
+          )}
+          {loading ? "Please Wait" : "Confirm Booking"}
         </button>
       </div>
     </div>

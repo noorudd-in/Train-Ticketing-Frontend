@@ -6,45 +6,26 @@ import {
   getPassengerArray,
   getLocaleDate,
 } from "../config/helper";
-
-const data = {
-  id: 1,
-  pnr: "1725186949149",
-  status: "booked",
-  class: "SL",
-  category: "general",
-  total_cost: 445,
-  booked: "2024-09-01T10:35:49.000Z",
-  cancelled: null,
-  train: {
-    number: 12701,
-    name: "Hussain Sagar Express",
-  },
-  schedule: {
-    from_station_name: "Chhatrapati Shivaji Maharaj Terminus (Mumbai)",
-    from_station_code: "CSMT",
-    to_station_name: "Nampally (Hyderabad)",
-    to_station_code: "HYB",
-    departure: "21:50",
-    arrival: "12:05",
-  },
-  passengers: {
-    p1_name: "Nooruddin Kamruddin Shaikh",
-    p1_age: 24,
-    p1_gender: "M",
-    p1_status: "CNF/SL/80/SIDE UPPER",
-    p2_name: "Nooruddin Kamruddin Shaikh",
-    p2_age: 24,
-    p2_gender: "M",
-    p2_status: "CNF/SL/79/SIDE LOWER",
-  },
-};
+import { useAppStore } from "../store";
+import { useNavigate } from "react-router-dom";
 
 const Receipt = () => {
   const { reward } = useReward("rewardId", "confetti");
-  const passengers = getPassengerArray(data.passengers);
+  const { isLoggedIn, ticket } = useAppStore();
+  const passengers = ticket?.passengers
+    ? getPassengerArray(ticket?.passengers)
+    : null;
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (!isLoggedIn) {
+      navigate("/");
+      return;
+    }
+    if (!ticket.pnr) {
+      navigate("/");
+      return;
+    }
     reward();
   }, []);
   return (
@@ -67,24 +48,25 @@ const Receipt = () => {
           <div className="text-base lg:text-xl">
             <h1 className="text-center">
               <span className="font-semibold">PNR: </span>
-              <span>{data.pnr}</span>
+              <span>{ticket.pnr}</span>
             </h1>
 
             <div className="flex justify-between flex-col lg:flex-row mt-2">
-              <p>Booked On: {getLocaleDate(data.booked)}</p>
+              <p>Booked On: {getLocaleDate(ticket.booked)}</p>
               <p>
                 Cancelled On:{" "}
-                {data.cancelled ? getLocaleDate(data.cancelled) : "N/A"}
+                {ticket.cancelled ? getLocaleDate(ticket.cancelled) : "N/A"}
               </p>
             </div>
             <div className="flex justify-between flex-col lg:flex-row">
               <p>
                 Status:{" "}
                 <span className="text-emerald-400">
-                  {data.status[0].toUpperCase() + data.status.slice(1)}
+                  {ticket?.status?.[0]?.toUpperCase() +
+                    ticket?.status?.slice(1)}
                 </span>
               </p>
-              <p>Cost: ₹ {data.total_cost}</p>
+              <p>Cost: ₹ {ticket.total_cost}</p>
             </div>
           </div>
         </div>
@@ -92,7 +74,7 @@ const Receipt = () => {
         <div className="bg-base-200 m-5 py-2 px-3 lg:px-5 text-base lg:text-xl">
           <div className="text-center">
             <h1>
-              {data.train.name} ({data.train.number})
+              {ticket?.train?.name} ({ticket?.train?.number})
             </h1>
           </div>
           <div className="flex justify-between">
@@ -102,23 +84,25 @@ const Receipt = () => {
           <div className="flex justify-between">
             <p className="flex gap-2">
               <span className="hidden lg:block">
-                {data.schedule.from_station_name} -
+                {ticket?.schedule?.from_station_name} -
               </span>
-              {data.schedule.from_station_code}
+              {ticket?.schedule?.from_station_code}
             </p>
             <p className="flex gap-2">
               <span className="hidden lg:block">
-                {data.schedule.to_station_name} -
+                {ticket?.schedule?.to_station_name} -
               </span>
-              {data.schedule.to_station_code}
+              {ticket?.schedule?.to_station_code}
             </p>
           </div>
           <div className="flex justify-between">
             <span>
-              {data.schedule.departure} ({get12HrTime(data.schedule.departure)})
+              {ticket?.schedule?.departure} (
+              {get12HrTime(ticket?.schedule?.departure)})
             </span>
             <span>
-              {data.schedule.arrival} ({get12HrTime(data.schedule.arrival)})
+              {ticket?.schedule?.arrival} (
+              {get12HrTime(ticket?.schedule?.arrival)})
             </span>
           </div>
         </div>
