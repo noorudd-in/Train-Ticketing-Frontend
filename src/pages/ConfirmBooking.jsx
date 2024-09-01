@@ -13,6 +13,10 @@ const ConfirmBooking = () => {
     return Number(gst);
   };
 
+  const handleBooking = () => {
+    navigate("/reciept");
+  };
+
   useEffect(() => {
     if (!isLoggedIn) {
       navigate("/");
@@ -93,7 +97,12 @@ const ConfirmBooking = () => {
         </div>
         <div className="flex justify-between max-w-80">
           <p>Tax (including GST):</p>
-          <p>{calculateGST(booking.cost) * passenger.length}</p>
+          <p>₹ {calculateGST(booking.cost) * passenger.length}</p>
+        </div>
+
+        <div className="flex justify-between max-w-80 font-bold">
+          <p>Total Fare:</p>
+          <p>₹ {booking.cost * passenger.length}</p>
         </div>
       </div>
 
@@ -104,7 +113,9 @@ const ConfirmBooking = () => {
         >
           Back
         </button>
-        <button className="btn btn-success">Make Payment</button>
+        <button className="btn btn-success" onClick={handleBooking}>
+          Confirm Booking
+        </button>
       </div>
     </div>
   );
