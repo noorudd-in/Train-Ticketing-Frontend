@@ -22,3 +22,22 @@ export const getTicket = async (pnr, userId, headers) => {
     return error.response.data;
   }
 };
+
+export const getBookings = async (token, userId) => {
+  try {
+    const result = await axios.post(
+      `${BOOK_URL}/tickets`,
+      {
+        user_id: userId,
+      },
+      {
+        headers: {
+          authtoken: token,
+        },
+      }
+    );
+    return result.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};
