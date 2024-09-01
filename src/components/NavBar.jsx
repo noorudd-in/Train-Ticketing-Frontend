@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { User, Ticket, LogOut } from "lucide-react";
 import { useAppStore } from "../store";
 import TrainSVG from "/train.svg";
+import { toast } from "react-hot-toast";
 
 const NavBar = () => {
   const { isLoggedIn, setIsLoggedIn, setUser } = useAppStore();
@@ -17,6 +18,10 @@ const NavBar = () => {
     }
     if (token && userId) {
       getProfile(token, userId).then((res) => {
+        if (!res.success) {
+          toast.error("Session Expired Please login again.");
+          return;
+        }
         if (res.success) {
           setIsLoggedIn(true);
           setUser({
@@ -61,10 +66,10 @@ const NavBar = () => {
               </li>
 
               <li>
-                <a>
+                <Link to="/my-bookings">
                   <Ticket />
                   Bookings
-                </a>
+                </Link>
               </li>
               <li>
                 <a onClick={handleLogout}>

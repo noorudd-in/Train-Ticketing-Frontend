@@ -8,6 +8,7 @@ import Profile from "../pages/Profile";
 import Booking from "../pages/Booking";
 import ConfirmBooking from "../pages/ConfirmBooking";
 import Receipt from "../pages/Receipt";
+import MyBookings from "../pages/MyBookings";
 
 const APP_ROUTES = createBrowserRouter([
   {
@@ -76,6 +77,16 @@ const APP_ROUTES = createBrowserRouter([
       <>
         <NavBar />
         <Profile />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/my-bookings",
+    element: (
+      <>
+        <NavBar />
+        <MyBookings />
       </>
     ),
     errorElement: <ErrorPage />,

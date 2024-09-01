@@ -26,6 +26,7 @@ const ConfirmBooking = () => {
 
   const handleBooking = async () => {
     setLoading(true);
+    toast("Please wait while your ticket is booked.");
     const token = localStorage.getItem("AccessToken");
     const userId = localStorage.getItem("UserId");
     if (!token || !userId) {
@@ -53,9 +54,18 @@ const ConfirmBooking = () => {
     };
 
     const bookingResponse = await newBooking(data, headers);
+    if (!bookingResponse.success) {
+      toast.error("Cannot book ticket. Server Error!");
+      return;
+    }
     const pnr = await bookingResponse.data.pnr;
     getTicket(pnr, userId, headers).then((ticket) => {
+      if (!ticket.success) {
+        toast.error("Cannot fetch tickets. Server Error!");
+        return;
+      }
       setTicket(ticket.data);
+      setLoading(false);
       navigate("/receipt");
     });
   };

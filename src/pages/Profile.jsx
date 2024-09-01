@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { getProfile } from "../api/auth";
-import Loading from "../components/Loading";
+import React, { useEffect } from "react";
 import { useAppStore } from "../store";
 
 const Profile = () => {
