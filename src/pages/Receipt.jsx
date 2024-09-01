@@ -53,7 +53,7 @@ const Receipt = () => {
         <span id="rewardId" />
       </div>
 
-      <div id="ticketContainer">
+      <div id="ticketContainer" className="print-only">
         <div className="text-emerald-500">
           <div className=" flex justify-center">
             <Tickets size={100} style={{ transform: "rotate(-30deg)" }} />
@@ -142,8 +142,8 @@ const Receipt = () => {
         </div>
       </div>
 
-      <div className="flex justify-center mt-5 mb-24 gap-2">
-        <button className="btn btn-neutral">
+      <div className="flex justify-center mt-5 mb-24 gap-2 no-print">
+        <button className="btn btn-neutral" onClick={() => window.print()}>
           <ArrowDownToLine />
           Download Ticket
         </button>
