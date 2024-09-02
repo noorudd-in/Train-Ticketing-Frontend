@@ -26,10 +26,11 @@ const ConfirmBooking = () => {
 
   const handleBooking = async () => {
     setLoading(true);
-    toast("Please wait while your ticket is booked.");
+    toast.loading("Booking in progress.");
     const token = localStorage.getItem("AccessToken");
     const userId = localStorage.getItem("UserId");
     if (!token || !userId) {
+      toast.dismiss();
       toast.error("Session Expired. Please login again.");
       setLoading(false);
       setIsLoggedIn(false);
@@ -65,6 +66,7 @@ const ConfirmBooking = () => {
         return;
       }
       setTicket(ticket.data);
+      toast.dismiss();
       setLoading(false);
       navigate("/receipt");
     });

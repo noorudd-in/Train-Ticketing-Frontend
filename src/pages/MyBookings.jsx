@@ -25,7 +25,6 @@ const MyBookings = () => {
       removeUser();
       navigate("/");
     }
-    setLoading(false);
 
     getBookings(token, userId).then((res) => {
       setLoading(false);
@@ -96,7 +95,10 @@ const MyBookings = () => {
                     <div>Cancelled On: {getLocaleDate(ticket.cancelled)}</div>
                   )}
                   <div className="mt-2">
-                    <button className="btn btn-active btn-ghost">
+                    <button
+                      className="btn btn-active btn-ghost"
+                      onClick={() => navigate(`/ticket/${ticket.pnr}`)}
+                    >
                       View Ticket
                     </button>
                   </div>

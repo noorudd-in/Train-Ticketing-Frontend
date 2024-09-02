@@ -9,6 +9,7 @@ import Booking from "../pages/Booking";
 import ConfirmBooking from "../pages/ConfirmBooking";
 import Receipt from "../pages/Receipt";
 import MyBookings from "../pages/MyBookings";
+import Ticket from "../pages/Ticket";
 
 const APP_ROUTES = createBrowserRouter([
   {
@@ -87,6 +88,16 @@ const APP_ROUTES = createBrowserRouter([
       <>
         <NavBar />
         <MyBookings />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/ticket/:pnr",
+    element: (
+      <>
+        <NavBar />
+        <Ticket />
       </>
     ),
     errorElement: <ErrorPage />,

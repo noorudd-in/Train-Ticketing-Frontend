@@ -26,10 +26,12 @@ const TrainRoute = ({ data, type }) => {
 
   const handleBooking = async (data) => {
     setLoading(true);
+    toast.loading("Fetchig details. Please wait.");
     const token = localStorage.getItem("AccessToken");
     const userId = localStorage.getItem("UserId");
     if (!isLoggedIn) {
       setLoading(false);
+      toast.dismiss();
       toast.error("Please login to book ticket.");
       return;
     }
@@ -37,6 +39,7 @@ const TrainRoute = ({ data, type }) => {
       setLoading(false);
       setIsLoggedIn(false);
       removeUser();
+      toast.dismiss();
       toast.error("Please login to book ticket.");
       return;
     }
@@ -45,6 +48,7 @@ const TrainRoute = ({ data, type }) => {
       setLoading(false);
       setIsLoggedIn(false);
       removeUser();
+      toast.dismiss();
       toast.error("Session Expired Please login again.");
       return;
     }
@@ -73,6 +77,7 @@ const TrainRoute = ({ data, type }) => {
     };
     setLoading(false);
     setBooking(bookingData);
+    toast.dismiss();
     navigate("/booking");
   };
 

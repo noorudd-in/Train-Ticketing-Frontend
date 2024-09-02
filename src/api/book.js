@@ -41,3 +41,18 @@ export const getBookings = async (token, userId) => {
     return error.response.data;
   }
 };
+
+export const cancelTicket = async (pnr, userId, headers) => {
+  try {
+    const res = await axios.patch(
+      `${BOOK_URL}/ticket/${pnr}`,
+      {
+        user_id: userId,
+      },
+      { headers }
+    );
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

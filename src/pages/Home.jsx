@@ -31,12 +31,15 @@ const Home = () => {
       return;
     }
     setLoading(true);
+    toast.loading("Searching for routes");
     getRoutes(fromStation, toStation).then((res) => {
       setLoading(false);
       if (!res.success) {
+        toast.dismiss();
         toast.error(res.message);
         return;
       }
+      toast.dismiss();
       setRoutes(res.data);
     });
   };
