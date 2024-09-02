@@ -131,7 +131,10 @@ const Receipt = () => {
           <ArrowDownToLine />
           Download Ticket
         </button>
-        <button className="btn btn-neutral">
+        <button
+          className="btn btn-neutral"
+          onClick={() => navigate("/my-bookings")}
+        >
           <Ticket />
           See Bookings
         </button>
