@@ -124,6 +124,12 @@ const Login = () => {
                 <span className="font-bold">Register</span>
               </Link>
             </p>
+            <p>
+              Didn’t get the email?{" "}
+              <Link to="/resend-email">
+                <span className="font-bold">Resend verification</span>
+              </Link>
+            </p>
           </div>
         </div>
       </div>

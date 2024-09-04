@@ -64,7 +64,10 @@ const MyBookings = () => {
         <div className="grid gap-4 md:grid-cols-2 grid-cols-1 mt-5 mb-24">
           {tickets.map((ticket) => {
             return (
-              <div className="item mx-5 my-2 text-base lg:text-xl">
+              <div
+                key={ticket.pnr}
+                className="item mx-5 my-2 text-base lg:text-xl"
+              >
                 <div>
                   <h1
                     className={`${

@@ -41,3 +41,14 @@ export const registerUser = async ({ name, phone, email, password }) => {
     return error.response.data;
   }
 };
+
+export const resendVerification = async (email) => {
+  try {
+    const res = await axios.post(`${AUTH_URL}/resend-verification-email`, {
+      email,
+    });
+    return res.data;
+  } catch (error) {
+    return error.response.data;
+  }
+};

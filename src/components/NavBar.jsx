@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
 import { getProfile } from "../api/auth";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User, Ticket, LogOut } from "lucide-react";
 import { useAppStore } from "../store";
 import TrainSVG from "/train.svg";
 import { toast } from "react-hot-toast";
 
-const NavBar = () => {
-  const { isLoggedIn, setIsLoggedIn, setUser } = useAppStore();
+const NavBar = ({ show }) => {
+  const { isLoggedIn, setIsLoggedIn, setUser, removeUser } = useAppStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("AccessToken");
@@ -20,6 +21,8 @@ const NavBar = () => {
       getProfile(token, userId).then((res) => {
         if (!res.success) {
           toast.error("Session Expired Please login again.");
+          setIsLoggedIn(false);
+          removeUser();
           return;
         }
         if (res.success) {
@@ -39,7 +42,9 @@ const NavBar = () => {
   const handleLogout = () => {
     localStorage.removeItem("AccessToken");
     localStorage.removeItem("UserId");
-    window.location.reload();
+    setIsLoggedIn(false);
+    removeUser();
+    navigate("/");
   };
   return (
     <div className="flex justify-between my-2">
@@ -80,8 +85,8 @@ const NavBar = () => {
             </ul>
           </div>
         ) : (
-          <Link to="/login">
-            <button className="btn btn-neutral">Login</button>
+          <Link to={show ? "/register" : "/login"}>
+            <button className="btn btn-neutral">{show ? show : "Login"}</button>
           </Link>
         )}
       </div>

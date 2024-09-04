@@ -66,6 +66,8 @@ const Ticket = () => {
     getTicket(pnr, userId, headers).then((res) => {
       if (!res.success) {
         toast.error(res.message);
+        setTicket(null);
+        setLoading(false);
         return;
       }
       setTicket(res.data);
