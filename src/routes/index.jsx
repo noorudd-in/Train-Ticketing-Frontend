@@ -10,6 +10,7 @@ import ConfirmBooking from "../pages/ConfirmBooking";
 import Receipt from "../pages/Receipt";
 import MyBookings from "../pages/MyBookings";
 import Ticket from "../pages/Ticket";
+import ResendVerificationEmail from "../pages/ResendVerificationEmail";
 
 const APP_ROUTES = createBrowserRouter([
   {
@@ -26,7 +27,7 @@ const APP_ROUTES = createBrowserRouter([
     path: "/login",
     element: (
       <>
-        <NavBar />
+        <NavBar show="Register" />
         <Login />
       </>
     ),
@@ -38,6 +39,16 @@ const APP_ROUTES = createBrowserRouter([
       <>
         <NavBar />
         <Register />
+      </>
+    ),
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/resend-email",
+    element: (
+      <>
+        <NavBar />
+        <ResendVerificationEmail />
       </>
     ),
     errorElement: <ErrorPage />,
