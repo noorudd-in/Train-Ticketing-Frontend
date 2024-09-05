@@ -6,7 +6,7 @@ const Search = ({ stations, setStation, setShowResult, category }) => {
   return (
     <div
       className={`absolute ${
-        category == "from" ? "top-[11rem]" : "top-[16.5rem] lg:top-[11rem]"
+        category == "from" ? "top-[14.5rem]" : "top-[20rem] lg:top-[14.5rem]"
       } w-full max-w-xs`}
     >
       <ul className="menu dropdown-content bg-base-100 rounded-box z-[1] p-2 shadow border border-zinc-600">
