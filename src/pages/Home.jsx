@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { ArrowRightLeft, ArrowDownUp } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowRightLeft, ArrowDownUp, MoveRight } from "lucide-react";
 import { toast } from "react-hot-toast";
 import { getRoutes, getStations } from "../api/search";
 import { useAppStore } from "../store";
@@ -56,6 +56,7 @@ const Home = () => {
   const [routes, setRoutes] = useState(null);
   const [searchType, setSearchType] = useState("general");
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState([]);
   const { removePassenger, removeBooking } = useAppStore();
 
   const handleSearch = async () => {
@@ -78,6 +79,7 @@ const Home = () => {
       }
       toast.dismiss();
       setRoutes(res.data);
+      setResult([fromStation, toStation]);
     });
   };
 
@@ -288,8 +290,15 @@ const Home = () => {
       </div>
 
       {routes && (
-        <div className="mt-5">
+        <div className="mt-5 mb-24">
           <h1 className="text-center font-bold text-2xl">Available Routes</h1>
+          <div className="flex justify-center text-base lg:text-xl">
+            <span>{result[0]}</span>
+            <span className="mx-2 flex justify-center items-center">
+              <MoveRight />
+            </span>
+            <span>{result[1]}</span>
+          </div>
           {routes.map((route) => {
             return (
               <TrainRoute

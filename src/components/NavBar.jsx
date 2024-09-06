@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { getProfile } from "../api/auth";
 import { Link, useNavigate } from "react-router-dom";
 import { User, Ticket, LogOut } from "lucide-react";
