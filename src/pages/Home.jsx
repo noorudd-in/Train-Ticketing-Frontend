@@ -5,47 +5,7 @@ import { getRoutes, getStations } from "../api/search";
 import { useAppStore } from "../store";
 import Search from "../components/Search";
 import TrainRoute from "../components/TrainRoute";
-let defaultStations = [
-  { id: 1, code: "CSMT", name: "Mumbai" },
-  { id: 2, code: "NDLS", name: "New Delhi" },
-  { id: 3, code: "HYB", name: "Hyderabad" },
-  { id: 4, code: "HWH", name: "Kolkata" },
-  { id: 5, code: "PNBE", name: "Kanpur" },
-  { id: 6, code: "MAS", name: "Chennai" },
-  { id: 7, code: "SBC", name: "Bengaluru" },
-];
-
-const states = [
-  "Andhra Pradesh",
-  "Arunachal Pradesh",
-  "Assam",
-  "Bihar",
-  "Chhattisgarh",
-  "Goa",
-  "Gujarat",
-  "Haryana",
-  "Himachal Pradesh",
-  "Jharkhand",
-  "Karnataka",
-  "Kerala",
-  "Madhya Pradesh",
-  "Maharashtra",
-  "Manipur",
-  "Meghalaya",
-  "Mizoram",
-  "New Delhi",
-  "Nagaland",
-  "Odisha",
-  "Punjab",
-  "Rajasthan",
-  "Sikkim",
-  "Tamil Nadu",
-  "Telangana",
-  "Tripura",
-  "Uttar Pradesh",
-  "Uttarakhand",
-  "West Bengal",
-];
+import { defaultStations, states } from "../config/constants";
 
 const Home = () => {
   const [tab, setTab] = useState("stations");
