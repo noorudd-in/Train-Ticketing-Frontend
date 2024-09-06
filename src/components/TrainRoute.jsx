@@ -3,10 +3,16 @@ import { useAppStore } from "../store";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 import { getProfile } from "../api/auth";
+import { Info } from "lucide-react";
 
 const TrainRoute = ({ data, type }) => {
   const [trainClass, setTrainClass] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [modal, setModal] = useState([
+    data.from_station_name,
+    data.from_station_code,
+  ]);
   const { isLoggedIn, setUser, setIsLoggedIn, setBooking, removeUser } =
     useAppStore();
   const navigate = useNavigate();
@@ -23,6 +29,15 @@ const TrainRoute = ({ data, type }) => {
   if (trainClass == "1A") {
     cost = cost * 6;
   }
+
+  const handleModal = (method, type) => {
+    if (type == "from") {
+      setModal([data.from_station_code, data.from_station_name]);
+    } else {
+      setModal([data.to_station_code, data.to_station_name]);
+    }
+    setIsOpen(method);
+  };
 
   const handleBooking = async (data) => {
     setLoading(true);
@@ -93,13 +108,63 @@ const TrainRoute = ({ data, type }) => {
         <span className="hidden lg:block">{data?.from_station_name}</span>
         <span className="hidden lg:block">{data?.to_station_name}</span>
       </div>
+      <div className="flex justify-between text-xs">
+        <span className="lg:hidden overflow-hidden whitespace-nowrap text-ellipsis w-2/4">
+          {data?.from_station_name}
+        </span>
+        <span className="w-2"></span>
+        <span className="lg:hidden overflow-hidden whitespace-nowrap text-ellipsis w-2/4 text-right">
+          {data?.to_station_name}
+        </span>
+      </div>
+
+      {/* Modal */}
+      <div>
+        <dialog className={`modal ${isOpen ? "modal-open" : ""}`}>
+          <div className="modal-box">
+            <div>
+              <span className="font-bold">Code: </span>
+              {modal[0]}
+            </div>
+            <div>
+              <span className="font-bold">Name: </span>
+              {modal[1]}
+            </div>
+
+            <div className="modal-action">
+              <form method="dialog">
+                <button className="btn" onClick={() => handleModal(false)}>
+                  Close
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
+      </div>
+
       <div className="flex justify-between">
-        <span>
-          {data?.departure} | {data?.from_station_code}
-        </span>
-        <span>
-          {data?.arrival} | {data?.to_station_code}
-        </span>
+        <div className="flex">
+          <span>
+            {data?.departure} | {data?.from_station_code}
+          </span>
+          <div
+            className="lg:hidden flex justify-center items-center ml-2"
+            onClick={() => handleModal(true, "from")}
+          >
+            <Info size={18} />
+          </div>
+        </div>
+        <div className="flex">
+          <span>
+            {data?.arrival} | {data?.to_station_code}
+          </span>
+          <div
+            className="lg:hidden flex justify-center items-center ml-2"
+            onClick={() => handleModal(true, "to")}
+          >
+            <Info size={18} />
+          </div>
+        </div>
       </div>
       {type == "general" && (
         <div className="flex flex-wrap gap-2 mt-5">
@@ -195,7 +260,9 @@ const TrainRoute = ({ data, type }) => {
           {loading && (
             <span className="loading loading-spinner loading-sm"></span>
           )}
-          {loading ? "Please Wait" : `Book Now ${trainClass && `@ ${cost}`}`}
+          {loading
+            ? "Please Wait"
+            : `Book Now ${trainClass ? `@ ${cost}` : ""}`}
         </button>
       </div>
     </div>
