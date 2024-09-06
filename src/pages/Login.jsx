@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Mail, LockKeyhole } from "lucide-react";
+import { Mail, LockKeyhole, EyeOff, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { loginUser } from "../api/auth";
@@ -9,6 +9,7 @@ import { useAppStore } from "../store";
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [rememberEmail, setRememberEmail] = useState(
     localStorage.getItem("UserEmail") ? true : false
@@ -81,12 +82,23 @@ const Login = () => {
             <label className="input input-bordered flex items-center gap-2">
               <LockKeyhole />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="grow"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {showPassword ? (
+                <Eye
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <EyeOff
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
             </label>
             <p className="flex justify-end font-bold my-1">
               <Link>Forgot Password?</Link>
