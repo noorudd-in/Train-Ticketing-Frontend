@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { Mail, LockKeyhole, User, Phone } from "lucide-react";
+import { Mail, LockKeyhole, User, Phone, EyeOff, Eye } from "lucide-react";
 import { registerUser } from "../api/auth";
 import { Link } from "react-router-dom";
 
@@ -10,6 +10,8 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleRegister = async () => {
@@ -110,12 +112,23 @@ const Register = () => {
             <label className="input input-bordered flex items-center gap-2">
               <LockKeyhole />
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 className="grow"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
+              {showPassword ? (
+                <Eye
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword(false)}
+                />
+              ) : (
+                <EyeOff
+                  className="cursor-pointer"
+                  onClick={() => setShowPassword(true)}
+                />
+              )}
             </label>
             <p className="text-left text-xs lg:text-sm">
               Must be 7+ letters including uppercase, lowercase, number and
@@ -126,12 +139,23 @@ const Register = () => {
             <label className="input input-bordered flex items-center gap-2">
               <LockKeyhole />
               <input
-                type="password"
+                type={showConfirmPassword ? "text" : "password"}
                 className="grow"
                 placeholder="Confirm Password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
               />
+              {showConfirmPassword ? (
+                <Eye
+                  className="cursor-pointer"
+                  onClick={() => setShowConfirmPassword(false)}
+                />
+              ) : (
+                <EyeOff
+                  className="cursor-pointer"
+                  onClick={() => setShowConfirmPassword(true)}
+                />
+              )}
             </label>
           </div>
 

@@ -21,7 +21,7 @@ const ErrorPage = () => {
         <div className="bg-primary text-primary-content grid place-content-center text-4xl lg:text-9xl font-black px-10">
           404 | Page Not Found
           <div className="text-xl lg:text-3xl mt-5">
-            Don't worry, you will be automatically redirected to the homepage in
+            Don't worry, you will be redirected to the homepage in
             <span className="countdown text-xl lg:text-3xl mx-2">
               <span style={{ "--value": count }}></span>
             </span>
